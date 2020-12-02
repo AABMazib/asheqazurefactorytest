@@ -1,0 +1,61 @@
+//var points = [1, 4, 7, 3, 3,5];
+var points = [0, 3, 3, 7,5, 3,5,11,1];
+var smallestDiff;
+
+function mergeSort(arr) {
+  if (arr.length == 1)
+    return arr;
+
+  if (arr.length > 1) {
+    let breakpoint = Math.ceil((arr.length / 2));
+    // Left list starts with 0, breakpoint-1
+    let leftList = arr.slice(0, breakpoint);
+    // Right list starts with breakpoint, length-1
+    let rightList = arr.slice(breakpoint, arr.length);
+
+    // Make a recursive call
+    leftList = mergeSort(leftList);
+    rightList = mergeSort(rightList);
+
+    var a = merge(leftList, rightList);
+    return a;
+  }
+}
+
+function merge(leftList, rightList) {
+  let result = [];
+  while (leftList.length && rightList.length) {
+    // Sorting the x coordinates
+    if (leftList[0] <= rightList[0]) {
+      result.push(leftList.shift());
+    } else {
+      result.push(rightList.shift());
+    }
+  }
+
+  while (leftList.length)
+    result.push(leftList.shift());
+
+  while (rightList.length)
+    result.push(rightList.shift());
+
+  let diff;
+  if (result.length > 1) {
+    diff = result[1] - result[0];
+  } else {
+    diff = result[0];
+  }
+
+  if (smallestDiff) {
+    if (diff < smallestDiff)
+      smallestDiff = diff;
+  } else {
+    smallestDiff = diff;
+  }
+  return result;
+}
+
+mergeSort(points);
+
+console.log(`Smallest difference: ${smallestDiff}`);
+  
